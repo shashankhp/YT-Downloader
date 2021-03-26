@@ -1,10 +1,6 @@
 from flask import Flask, redirect, url_for, render_template, request, flash, session
 from pytube import YouTube
 
-
-if __name__ == '__main__':
-	socketio.run(app)
-
 app = Flask(__name__)
 app.secret_key = "SSKhp"
 
@@ -24,5 +20,6 @@ def home():
 	except(Exception):
 		flash("Video inaccessible. Check the Link and try again!")
 		return render_template("index.html")
-
 	
+if __name__ == '__main__':
+	app.run()
