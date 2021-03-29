@@ -8,7 +8,6 @@ app.secret_key = "SSKhp"
 def home():
 	try:
 		if request.method == "POST":
-			if request.method == "POST":
 			link = request.form["link"]
 			session["link"] = link
 			yt = YouTube(link)
