@@ -1,4 +1,4 @@
-from flask import Flask, redirect, url_for, render_template, request, flash, session
+from flask import Flask, redirect, url_for, render_template, request, flash
 from pytube import YouTube
 
 app = Flask(__name__)
