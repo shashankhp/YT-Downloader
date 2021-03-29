@@ -12,19 +12,11 @@
 
 
 <body>
-{% with messages = get_flashed_messages() %}
-	{% if messages %}
-		{% for msg in messages %}
-			<p id= "mess">{{msg}}</p>
-		{% endfor %}
-	{% endif %}
-{% endwith %}
 
   <form action="#" method="post">
     <p id="title"><label> Enter the YouTube Link </label></p>
     <p id="link" ><input type="text" name="link"></p>
     <p id="sub" > <input type="submit" value="Submit"></p>
   </form>
-
 
 </body>
