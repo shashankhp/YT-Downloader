@@ -1,28 +1,25 @@
-<!DOCTYPE html>
+from flask import Flask, redirect, url_for, render_template, request, flash, session
+from pytube import YouTube
 
+app = Flask(__name__)
+app.secret_key = "SSKhp"
 
-<head>
-    <link href="../static/main.css" rel="stylesheet" type="text/CSS">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
- 	<link href="https://fonts.googleapis.com/css2?family=Cabin:wght@500&display=swap" rel="stylesheet">
-</head>
+@app.route("/", methods=["POST", "GET"])
+def home():
+	try:
+		if request.method == "POST":
+			link = request.form["link"]
+			session["link"] = link
+			yt = YouTube(link)
+			video = yt.streams.filter(file_extension='mp4').order_by('resolution').desc()
+			video.first().download()
+			flash("Video Downloaded Successfully")
+			return render_template("index.html")
+		else :
+			return render_template("index.html")
+	except(Exception):
+		flash("Video inaccessible. Check the Link and try again!")
+		return render_template("index.html")
 
-
-
-<body>
-{% with messages = get_flashed_messages() %}
-	{% if messages %}
-		{% for msg in messages %}
-			<p id= "mess">{{msg}}</p>
-		{% endfor %}
-	{% endif %}
-{% endwith %}
-
-  <form action="#" method="post">
-    <p id="title"><label> Enter the YouTube Link </label></p>
-    <p id="link" ><input type="text" name="link"></p>
-    <p id="sub" > <input type="submit" value="Submit"></p>
-  </form>
-</body> 
+if __name__ == '__main__':
+	app.run(debug=True)
