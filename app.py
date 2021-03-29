@@ -8,11 +8,17 @@ app.secret_key = "SSKhp"
 def home():
 	try:
 		if request.method == "POST":
+			if request.method == "POST":
 			link = request.form["link"]
 			session["link"] = link
 			yt = YouTube(link)
 			video = yt.streams.filter(file_extension='mp4').order_by('resolution').desc()
-			video.first().download()
+			video = video.first().url
+			chunk_size = 256
+			r = requests.get(video, stream=True)
+			with open("Youtube Video", "wb") as f:
+				for chunk in r.iter_content(chunk_size = chunk_size):
+					f.write(chunk)
 			flash("Video Downloaded Successfully")
 			return render_template("index.html")
 		else :
