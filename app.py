@@ -12,8 +12,16 @@ def home():
 			session["link"] = link
 			yt = YouTube(link)
 			video = yt.streams.filter(progressive=True).order_by('resolution').desc()
-			video.first().download()
-			return redirect(url_for("download_file", nam = yt.title))
+			tit = yt.title
+			correct = ""
+			for c in tit:
+				if c == "|":
+					correct += " "
+				else:
+					correct += c
+                
+			video.first().download(filename=correct)
+			return redirect(url_for("download_file", nam = correct))
 		else :
 			return render_template("index.html")
 	except(Exception):
