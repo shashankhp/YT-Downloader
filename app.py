@@ -11,10 +11,9 @@ def home():
 			link = request.form["link"]
 			session["link"] = link
 			yt = YouTube(link)
-			video = yt.streams.filter(file_extension='mp4').order_by('resolution').desc()
+			video = yt.streams.filter(progressive=True).order_by('resolution').desc()
 			video.first().download(filename='Video')
-			flash("Video Downloaded Successfully")
-			return redirect(url_for("download_file"))
+			return redirect(url_for("download_file", nam = yt.title))
 		else :
 			return render_template("index.html")
 	except(Exception):
@@ -22,12 +21,9 @@ def home():
 		return render_template("index.html")
 
 
-@app.route('/download')
-def download_file():
-    #path = "html2pdf.pdf"
-	#path = "info.xlsx"
-	path = "Video.mp4"
-	#path = "sample.txt"
+@app.route('/<nam>')
+def download_file(nam):
+	path = nam + ".mp4"
 	return send_file(path, as_attachment=True)
 
 if __name__ == '__main__':
