@@ -12,7 +12,7 @@ def home():
 			session["link"] = link
 			yt = YouTube(link)
 			video = yt.streams.filter(progressive=True).order_by('resolution').desc()
-			video.first().download(filename='Video')
+			video.first().download()
 			return redirect(url_for("download_file", nam = yt.title))
 		else :
 			return render_template("index.html")
