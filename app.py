@@ -15,7 +15,7 @@ def home():
 			tit = yt.title
 			correct = ""
 			for c in tit:
-				if c == "|":
+				if c == "|" or c==".":
 					correct += " "
 				else:
 					correct += c
